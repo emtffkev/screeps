@@ -1,6 +1,6 @@
 var roleHarvester = {
 
-  run: function(creep) {
+  run: function(creep,spawn) {
 
     if (creep.memory.working == true && creep.carry.energy == 0) {
       creep.memory.working = false;
@@ -9,9 +9,9 @@ var roleHarvester = {
     }
 
     if (creep.memory.working == true) {
-      if (Game.spawns.EmtSpawn1.energy < Game.spawns.EmtSpawn1.energyCapacity) {
-        if (creep.transfer(Game.spawns.EmtSpawn1, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-          creep.moveTo(Game.spawns.EmtSpawn1);
+      if (spawn.energy < spawn.energyCapacity) {
+        if (creep.transfer(spawn, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+          creep.moveTo(spawn);
         }
       } else {
         var target = creep.room.find(FIND_STRUCTURES, {
