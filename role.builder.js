@@ -1,8 +1,7 @@
 var roleUpgrader = require('role.upgrader');
 
-var roleBuilder = {
+module.exports = {
 
-	/** @param {Creep} creep **/
 	run: function(creep) {
 
     if (creep.memory.working == true && creep.carry.energy == 0) {
@@ -22,13 +21,10 @@ var roleBuilder = {
         roleUpgrader.run(creep);
       }
     } else {
-      creep.moveTo(15,42);
-      var source = Game.getObjectById('31ef07748aec3a4');
+      var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
       if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
         creep.moveTo(source);
       }
     }
 	}
 };
-
-module.exports = roleBuilder;

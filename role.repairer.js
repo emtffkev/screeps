@@ -1,3 +1,5 @@
+var roleBuilder = require('role.builder');
+
 module.exports = {
 
 	run: function(creep) {
@@ -8,9 +10,17 @@ module.exports = {
       creep.memory.working = true;
     }
 
-    if(creep.memory.working == true) {
-      if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-        creep.moveTo(creep.room.controller);
+    if (creep.memory.working == true) {
+      var structure = creep.pos.findClosestByPath(FIND_STRUCTURES, {
+        filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL
+      });
+
+      if (structure != undefined) {
+        if (creep.repair(structure) == ERR_NOT_IN_RANGE) {
+          creep.moveTo(structure);
+        }
+      } else {
+        roleBuilder.run(creep);
       }
     } else {
       var source = creep.pos.findClosestByPath(FIND_SOURCES_ACTIVE);
@@ -18,5 +28,5 @@ module.exports = {
         creep.moveTo(source);
       }
     }
-	}
+  }  
 };
