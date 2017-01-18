@@ -12,12 +12,13 @@ module.exports.loop = function() {
   var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
   var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
 
+  console.log('Currently ' + harvesters.length + ' harvesters.');
+
   if (harvesters.length < 3) {
     var newName = spawn.createCreep([WORK, CARRY, CARRY, MOVE, MOVE], undefined, {
       role: 'harvester',
       working: true
     });
-    console.log('Currently ' + harvesters.length + ' harvesters.');
   } else if (builders.length < 1) {
     var newName = spawn.createCreep([WORK, CARRY, MOVE], undefined, {
       role: 'builder',
