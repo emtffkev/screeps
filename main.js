@@ -50,6 +50,8 @@ module.exports.loop = function() {
   var numRepairers = _.sum(Game.creeps, (c) => c.memory.role == 'repairer');
   var numWallRepairers = _.sum(Game.creeps, (c) => c.memory.role == 'wallRepairer');
 
+  console.log('Harvesters: '+numHarvesters+'. Upgraders: '+numUpgraders+'. Builders: '+numBuilders+'. Repairers: '+numRepairers+'. Wall Repairers: '+numWallRepairers+'.');
+
   var energy = Game.spawns.EmtSpawn1.room.energyCapacityAvailable;
   var name = undefined;
 
