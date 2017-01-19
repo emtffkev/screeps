@@ -7,6 +7,10 @@ var roleWallRepairer = require('role.wallRepairer');
 
 module.exports.loop = function() {
 
+  for (var rooms in Game.rooms) {
+    var room = Game.rooms[rooms];
+    var spawn = room.find(FIND_MY_SPAWNS)[0];
+}
   for (let name in Memory.creeps) {
     if (!Game.creeps[name]) {
       delete Memory.creeps[name];
@@ -28,7 +32,7 @@ module.exports.loop = function() {
     }
   }
 
-  var towers = Game.rooms.W2N5.find(FIND_STRUCTURES, {
+  var towers = room.find(FIND_STRUCTURES, {
     filter: (s) => s.structureType == STRUCTURE_TOWER
   });
   for (let tower of towers) {
@@ -50,27 +54,29 @@ module.exports.loop = function() {
   var numRepairers = _.sum(Game.creeps, (c) => c.memory.role == 'repairer');
   var numWallRepairers = _.sum(Game.creeps, (c) => c.memory.role == 'wallRepairer');
 
+  var energy = room.energyCapacityAvailable;
   console.log('Harvesters: '+numHarvesters+'. Upgraders: '+numUpgraders+'. Builders: '+numBuilders+'. Repairers: '+numRepairers+'. Wall Repairers: '+numWallRepairers+'.');
 
   var energy = Game.spawns.EmtSpawn1.room.energyCapacityAvailable;
+  
   var name = undefined;
 
   if (numHarvesters < minHarvesters) {
-    name = Game.spawns.EmtSpawn1.createCustomCreep(energy, 'harvester');
+    name = spawn.createCustomCreep(energy, 'harvester');
 
     if (name == ERR_NOT_ENOUGH_ENERGY && numHarvesters == 0) {
-      name = Game.spawns.EmtSpawn1.createCustomCreep(Game.spawns.EmtSpawn1.room.energyAvailable, 'harvester');
+      name = spawn.createCustomCreep(spawn.room.energyAvailable, 'harvester');
     }
   } else if (numUpgraders < minUpgraders) {
-    name = Game.spawns.EmtSpawn1.createCustomCreep(energy, 'upgrader');
+    name = spawn.createCustomCreep(energy, 'upgrader');
   } else if (numRepairers < minRepairers) {
-    name = Game.spawns.EmtSpawn1.createCustomCreep(energy, 'repairer');
+    name = spawn.createCustomCreep(energy, 'repairer');
   } else if (numBuilders < minBuilders) {
-    name = Game.spawns.EmtSpawn1.createCustomCreep(energy, 'builder');
+    name = spawn.createCustomCreep(energy, 'builder');
   } else if (numWallRepairers < minWallRepairers) {
-    name = Game.spawns.EmtSpawn1.createCustomCreep(energy, 'wallRepairer');
+    name = spawn.createCustomCreep(energy, 'wallRepairer');
   } else {
-    name = Game.spawns.EmtSpawn1.createCustomCreep(energy, 'builder');
+    name = spawn.createCustomCreep(energy, 'builder');
   }
 
   if (!(name < 0)) {
