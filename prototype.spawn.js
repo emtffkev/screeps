@@ -139,7 +139,7 @@ StructureSpawn.prototype.createMiner =
     });
   };
 
-StructureSpawn.prototype.createHarvester =
+StructureSpawn.prototype.createHauler =
   function(energy) {
     var numberOfParts = Math.floor(energy / 150);
     numberOfParts = Math.min(numberOfParts, Math.floor(50 / 3));
@@ -152,7 +152,7 @@ StructureSpawn.prototype.createHarvester =
     }
 
     return this.createCreep(body, undefined, {
-      role: 'harvester',
+      role: 'hauler',
       working: false
     });
   };
